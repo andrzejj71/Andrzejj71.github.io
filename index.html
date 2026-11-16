@@ -6,18 +6,18 @@
 <title>Panel NBA – prototyp</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@500;600&display=swap">
 <style>
-:root{--bg:#050308;--card:#0b0712;--line:#3b2670;--text:#ffffff;--mute:#b9aee0;--hit:#3dffa0;--miss:#ff5a5f;--gold:#ffffff;--violet:#8b5cf6;color-scheme:dark;
+:root{--bg:#111111;--card:#1c1c1c;--line:#333333;--text:#ffffff;--mute:#a9a9a9;--hit:#3dffa0;--miss:#ff6b6b;--gold:#ffffff;--violet:#e60023;color-scheme:dark;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#efeafc;--card:#fff;--line:#cbbdf5;--text:#1a1235;--mute:#6b5f99;--hit:#0f9d5c;--miss:#d63a40;--gold:#4c1d95;--violet:#6d3fe0;color-scheme:light}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#ffffff;--card:#f6f6f6;--line:#dcdcdc;--text:#111111;--mute:#767676;--hit:#0f9d5c;--miss:#d63a40;--gold:#111111;--violet:#e60023;color-scheme:light}}
 :root[data-theme="dark"]{color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--text);font:600 15px/1.4 Barlow,system-ui,sans-serif;display:flex;justify-content:center;padding:20px 12px 40px}
 .wrap{width:100%;max-width:560px}
 h1,.num,.big{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:800;margin:0}
-.card{background:var(--card);border:2px solid var(--violet);border-radius:22px;padding:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:20px}
 .who{display:flex;gap:20px;align-items:center;margin-bottom:6px}
-.avatar{width:140px;height:140px;flex:0 0 auto;border-radius:24px;border:2px solid var(--violet);background:linear-gradient(135deg,var(--violet),var(--gold));display:grid;place-items:center;font:800 26px "Barlow Condensed",sans-serif;color:#120c26}
+.avatar{width:140px;height:140px;flex:0 0 auto;border-radius:24px;border:2px solid var(--line);background:var(--line);display:grid;place-items:center;font:800 26px "Barlow Condensed",sans-serif;color:#120c26}
 h1{font-size:44px;line-height:1.02}
 .mute{color:var(--mute)}
 .stat{display:flex;align-items:center;gap:12px;margin:18px 0 12px;flex-wrap:wrap}
@@ -29,8 +29,8 @@ h1{font-size:44px;line-height:1.02}
 .ring span{position:relative;font:800 24px "Barlow Condensed",sans-serif}
 .ring small{display:block;font:600 10px Barlow,sans-serif;color:var(--mute)}
 .panel{display:grid;grid-template-columns:110px 1fr;gap:10px}
-.box{background:#00000040;border:1px solid var(--line);border-radius:14px;padding:12px}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .box{background:#f3effd}}
+.box{background:#ffffff0d;border:1px solid var(--line);border-radius:14px;padding:12px}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .box{background:#ebebeb}}
 .avg{display:grid;place-content:center;text-align:center}
 .avg .num{font-size:54px;color:var(--hit);line-height:1}
 .chart{position:relative;height:190px;padding-top:6px}
@@ -42,9 +42,9 @@ h1{font-size:44px;line-height:1.02}
 .lbl span{flex:1;text-align:center}
 .thr{position:absolute;left:0;right:0;border-top:2px dotted var(--gold);transition:bottom .25s;pointer-events:none}
 .search{position:relative;margin-bottom:14px}
-.search input{width:100%;background:#00000040;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;font:600 16px Barlow,sans-serif}
+.search input{width:100%;background:#ffffff0d;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;font:600 16px Barlow,sans-serif}
 .search input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .search input{background:#f3effd}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .search input{background:#ebebeb}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 #sug{position:absolute;left:0;right:0;top:100%;z-index:5;list-style:none;margin:4px 0 0;padding:4px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;max-height:240px;overflow-y:auto}
 #sug button{width:100%;text-align:left;background:transparent;color:var(--text);border:0;border-radius:8px;padding:9px 10px;font:600 15px Barlow,sans-serif;cursor:pointer;display:flex;justify-content:space-between}
@@ -63,7 +63,7 @@ h1{font-size:44px;line-height:1.02}
 .ld:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .tabs{display:flex;gap:8px;margin:24px 0 0;flex-wrap:wrap}
 .tabs button{background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:10px;padding:7px 14px;font:700 15px Barlow,sans-serif;cursor:pointer}
-.tabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#120c26}
+.tabs button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--bg)}
 .tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .ctrl{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
 .ctrl button{background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:10px;padding:8px 14px;font:700 15px Barlow,sans-serif;cursor:pointer}
@@ -78,7 +78,7 @@ h1{font-size:44px;line-height:1.02}
 
 
 #p2 .pl[role="button"]{cursor:pointer;border-radius:10px}
-#p2 .pl[role="button"]:hover{background:#8b5cf626}
+#p2 .pl[role="button"]:hover{background:#ffffff14}
 #p2 .pl[role="button"]:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .av,.logo,.avatar{position:relative;overflow:hidden}
 .av img,.logo img,.avatar img{position:absolute;inset:0;width:100%;height:100%}
@@ -96,19 +96,19 @@ h1{font-size:44px;line-height:1.02}
 #p2{display:contents}
 @media (max-width:1000px){.dash{grid-template-columns:1fr;max-width:620px}}
 #p2 .sels>div{position:relative}
-#p2 .sels input{width:100%;background:#00000040;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:600 16px Barlow,sans-serif}
+#p2 .sels input{width:100%;background:#ffffff0d;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:600 16px Barlow,sans-serif}
 #p2 .sels input:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 .sg{position:absolute;left:0;right:0;top:100%;z-index:6;list-style:none;margin:4px 0 0;padding:4px;background:var(--card);border:1.5px solid var(--line);border-radius:12px;max-height:240px;overflow-y:auto}
 .sg[hidden]{display:none}
 .sg button{width:100%;text-align:left;background:transparent;color:var(--text);border:0;border-radius:8px;padding:9px 10px;font:600 15px Barlow,sans-serif;cursor:pointer;display:flex;justify-content:space-between}
 .sg button:hover,.sg button:focus-visible{background:var(--line);outline:none}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) #p2 .sels input{background:#f3effd}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) #p2 .sels input{background:#ebebeb}}
 .load2,#loadBtn,#teamBtn{display:none!important}
 .load2x{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 .rec{display:none!important}
 .sugh{font:800 22px "Barlow Condensed",sans-serif;color:var(--gold);margin:0 0 2px}
 .sugl{display:grid;gap:8px;margin-top:10px}
-.sugb{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:#00000040;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:600 15px Barlow,sans-serif;cursor:pointer}
+.sugb{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;text-align:left;background:#ffffff0d;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:600 15px Barlow,sans-serif;cursor:pointer}
 .sugb.star{border:2px solid #ffc233;box-shadow:0 0 12px #ffc23340}
 #p2 #sw,#p2 #sw1{margin:16px 0 18px}
 #p2 .head .pill{display:inline-block;margin-top:4px}
@@ -120,12 +120,12 @@ h1{font-size:44px;line-height:1.02}
 .tp td{padding:9px 6px;border-top:1px solid var(--line)}
 .tpp{font:800 22px "Barlow Condensed",sans-serif;color:var(--gold)}
 .sugp{font:800 24px "Barlow Condensed",sans-serif;color:var(--gold)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) #p2 select,:root:not([data-theme="dark"]) .sugb{background:#f3effd}}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) #p2 select,:root:not([data-theme="dark"]) .sugb{background:#ebebeb}}
 #p2 h1,#p2 h2,#p2 .num,#p2 .big{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:800;margin:0}
 #p2 h2{font-size:24px;color:var(--gold);margin:22px 0 8px}
 #p2 .sels{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 #p2 .sels label{display:block;font-size:12px;color:var(--mute);margin-bottom:4px}
-#p2 select{width:100%;background:#00000040;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:600 16px Barlow,sans-serif}
+#p2 select{width:100%;background:#ffffff0d;color:var(--text);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;font:600 16px Barlow,sans-serif}
 #p2 select:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 #p2 option{background:var(--card);color:var(--text)}
 #p2 .head{display:flex;align-items:center;justify-content:space-around;gap:8px;margin:18px 0 4px;text-align:center}
@@ -140,7 +140,7 @@ h1{font-size:44px;line-height:1.02}
 #p2 .ring::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--rb,var(--line));-webkit-mask:radial-gradient(circle,transparent 29px,#000 31px);mask:radial-gradient(circle,transparent 29px,#000 31px)}
 #p2 .ring span{position:relative;font:800 24px "Barlow Condensed",sans-serif;line-height:1}
 #p2 .ring small{display:block;font:600 10px Barlow,sans-serif;color:var(--mute)}
-#p2 .box{background:#00000040;border:1px solid var(--line);border-radius:14px;padding:12px}
+#p2 .box{background:#ffffff0d;border:1px solid var(--line);border-radius:14px;padding:12px}
 #p2 .chart{position:relative;height:190px;padding-top:6px}
 #p2 .bars{display:flex;align-items:flex-end;gap:5px;height:150px;position:relative}
 #p2 .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font:800 13px "Barlow Condensed",sans-serif}
@@ -589,7 +589,7 @@ h1{font-size:44px;line-height:1.02}
   function nrm(t){return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
   function combo(inp,sel,ul){
     function list(){var t=nrm(inp.value.trim());return Object.keys(T).sort().filter(function(k){return !t||nrm(T[k].n).indexOf(t)>-1||nrm(k).indexOf(t)>-1})}
-    function pick(k){sel.value=k;inp.value=T[k].n;ul.hidden=true;update()}
+    function pick(k){sel.value=k;inp.value=T[k].n;ul.hidden=true;if(sel===ta){var nx=nextOf(k);if(nx&&T[nx.opp])tb.value=nx.opp}update()}
     function show(){
       var m=list(); ul.innerHTML='';
       if(!m.length){var li=document.createElement('li');li.className='mute';li.style.padding='9px 10px';li.textContent='Nie znaleziono drużyny.';ul.appendChild(li)}
@@ -654,7 +654,10 @@ h1{font-size:44px;line-height:1.02}
   function update(){
     var a=ta.value, b=tb.value; if(a===b){b=keys.filter(function(k){return k!==a})[0];tb.value=b} syncInputs();
     var A=T[a], B=T[b], pct=function(r){return Math.round(r[0]/(r[0]+r[1])*100)};
-    var box=function(k,t){var g=(t.rec[0]+t.rec[1])||1,w=Math.round(t.rec[0]/g*100);return '<div>'+badge(k)+'<div class="tn">'+t.n+'</div>'+'<div class="ring" style="margin:12px auto 10px;--rb:conic-gradient(var(--hit) '+w+'%, var(--line) 0)"><span>'+w+'%<small>winrate</small></span></div>'+'<span class="pill">'+t.rec[0]+'-'+t.rec[1]+'</span></div>'};
+    var box=function(k,t){var g=(t.rec[0]+t.rec[1])||1,w=Math.round(t.rec[0]/g*100),c=w===50?'#ffc233':w>50?'var(--hit)':'var(--miss)';
+      return '<div>'+badge(k)+'<div class="tn">'+t.n+'</div>'+
+        '<div class="ring" style="margin:12px auto 10px;box-shadow:0 0 20px -4px '+c+';--rb:conic-gradient('+c+' '+w+'%, var(--line) 0)"><span>'+w+'%<small>winrate</small></span></div>'+
+        '<span class="pill" style="border-color:'+c+';color:'+c+';box-shadow:0 0 16px -2px '+c+'">'+t.rec[0]+'-'+t.rec[1]+'</span></div>'};
     $('#head').innerHTML=box(a,A)+'<div class="vs">VS</div>'+box(b,B);
     drawTotal(); fillPicks();
     drawTeam();
@@ -684,4 +687,3 @@ h1{font-size:44px;line-height:1.02}
 </script>
 </body>
 </html>
-
