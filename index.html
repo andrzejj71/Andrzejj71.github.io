@@ -84,6 +84,39 @@ h1{font-size:44px;line-height:1.02}
 .av img,.logo img,.avatar img{position:absolute;inset:0;width:100%;height:100%}
 .av img,.avatar img{object-fit:cover;object-position:center 12%}
 .logo img{object-fit:contain;padding:8px;background:#fff;border-radius:50%}
+.starb{border:2px solid #ffc233;border-radius:20px;padding:14px;margin-top:12px;box-shadow:0 0 14px #ffc23340}
+.starh{display:flex;gap:14px;align-items:center;margin-bottom:6px}
+.starh .av{width:68px;height:68px;border-radius:50%;background:var(--line);display:grid;place-items:center;font:800 20px "Barlow Condensed",sans-serif;color:var(--text);flex:0 0 auto}
+.starh b{font-size:20px;display:block}.starh small{color:var(--mute);font-size:12px}
+.starb .sugb{margin-top:8px}
+.cmp{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+.cmp th{text-align:left;padding:6px;color:var(--mute);font-size:13px}
+.cmp td{padding:10px 6px;border-top:1px solid var(--line);vertical-align:top}
+.cmp td:first-child{color:var(--mute);width:24%}
+.cmp ul{margin:0;padding-left:16px}
+.cmp .pro li::marker{color:var(--hit)}.cmp .con li::marker{color:var(--miss)}
+.tabbar{display:flex;gap:8px;margin:0 0 16px}
+.tabbar button{background:transparent;color:var(--text);border:1.5px solid var(--line);border-radius:999px;padding:10px 22px;font:700 16px Barlow,sans-serif;cursor:pointer}
+.tabbar button[aria-selected="true"]{background:var(--gold);border-color:var(--gold);color:var(--bg)}
+.tabbar button:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+.tabpane[hidden]{display:none!important}
+.dash2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch;margin:0 auto}
+@media (max-width:1000px){.dash2{grid-template-columns:1fr}}
+.sugrow{display:flex;gap:8px;align-items:stretch}
+.sugrow .sugb{flex:1}
+.addb{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:12px;padding:0 12px;font:700 13px Barlow,sans-serif;cursor:pointer}
+.addb:hover{background:var(--violet);border-color:var(--violet);color:#fff}
+.slipr{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:14px;margin-top:8px}
+.slipr.win{border-color:var(--hit)}.slipr.lose{border-color:var(--miss)}
+.slipr label{display:flex;gap:10px;align-items:center;cursor:pointer}
+.slipr b{display:block;font-size:16px}.slipr small{color:var(--mute);font-size:12px}
+.slipb{display:flex;gap:6px}
+.slipb button{width:32px;height:32px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--text);font:700 15px Barlow,sans-serif;cursor:pointer}
+.slips{margin:14px 0;display:grid;gap:4px}
+.slipt{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.slipt b{font:800 30px "Barlow Condensed",sans-serif;color:var(--hit)}
+.b2b{display:inline-block;margin-top:8px;padding:2px 10px;border-radius:999px;background:var(--miss);color:#111;font:800 12px Barlow,sans-serif}
+.restn{display:block;margin-top:8px;font-size:12px;color:var(--mute)}
 .app{width:min(97vw,1780px);margin:0 auto}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;flex-wrap:wrap;margin:0 0 16px;padding:12px 18px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
 .top .load{margin:0}
@@ -171,7 +204,8 @@ h1{font-size:44px;line-height:1.02}
 <body>
 <main class="app">
 <header class="top"><h1 class="ttl">Panel NBA</h1><div class="load"><button type="button" class="ld" id="allBtn">Wczytaj wszystko (nba_data.json)</button><input type="file" id="allFile" accept=".json,application/json" class="sr" tabindex="-1"><button type="button" class="ld" id="loadBtn">Wczytaj players.json</button><input type="file" id="file" accept=".json,application/json" class="sr" tabindex="-1"><button type="button" class="ld" id="teamBtn">Wczytaj teams.json</button><input type="file" id="tfile" accept=".json,application/json" class="sr" tabindex="-1"><span class="mute" id="loadMsg">Plik nba_data.json wygenerujesz skryptem aktualizuj_wszystko.py.</span></div></header>
-<div class="dash">
+<nav class="tabbar" role="tablist" aria-label="Zakładki"><button type="button" role="tab" data-tab="a" aria-selected="true">Analiza meczu</button><button type="button" role="tab" data-tab="b" aria-selected="false">Gwiazdy i porównanie</button></nav>
+<div class="dash tabpane" id="tabA">
 <div class="col">
 <section class="card" aria-label="Karta gracza">
   <div class="search">
@@ -224,7 +258,7 @@ h1{font-size:44px;line-height:1.02}
     <small class="mute" id="recTxt">8 zwycięstw, 4 porażki</small>
   </div>
 </section>
-<section class="card" id="sugCard"><h2 class="sugh">Najpewniejsze typy: punkty, zbiórki, asysty</h2><small class="mute">Do 3 typów z każdej drużyny: gwiazda drużyny (złota ramka), jeśli jest, a reszta to typy z wartością, więc razem 5–6 typów: linia blisko średniej, szansa 50–74%, z premią za mecze, w których do progu brakło tylko 1. Korekty: dom/wyjazd, obrona i atak obu drużyn, brak ważnych graczy (grają 24+ min, a nie zagrali w ostatnim meczu drużyny).</small><div class="sugl" id="sugList"></div></section>
+
 
 
 
@@ -257,6 +291,10 @@ h1{font-size:44px;line-height:1.02}
 </section></div>
 </div>
 </div>
+<div class="dash2 tabpane" id="tabB" hidden>
+<div class="col"><section class="card" id="sugCard"><h2 class="sugh">Gwiazdy meczu</h2><small class="mute">Najlepszy strzelec każdej drużyny (bez graczy, którzy nie zagrali w ostatnim meczu). Dla punktów, zbiórek i asyst: linia „+X” i szansa po korektach (dom/wyjazd, obrona i atak drużyn, braki).</small><div class="sugl" id="sugList"></div></section></div>
+<div class="col"><section class="card" id="cmpCard"><h2 class="sugh">Porównanie drużyn</h2><small class="mute">Ranking, atak, obrona, forma, ostatni mecz i ważni gracze, którzy nie zagrali w ostatnim meczu (to nie jest oficjalny raport kontuzji). Dane z ostatnich 10 meczów.</small><div style="overflow-x:auto" id="cmpBox"></div></section></div>
+</div>
 <footer class="foot"><details class="upd"><summary>Jak zaktualizować dane</summary>
 <p>Strona nie może sama uruchamiać programów na Twoim komputerze. Uruchom skrypty u siebie (w terminalu, w folderze ze skryptami) albo kliknij dwa razy plik aktualizuj.bat (Windows) lub aktualizuj.command (Mac). Potem wczytaj nowe pliki przyciskami powyżej.</p>
 <code>python aktualizuj_wszystko.py</code>
@@ -285,6 +323,7 @@ h1{font-size:44px;line-height:1.02}
     o:["DEN","OKC","LAL","MIN","PHX","DAL","MEM","UTA","GSW","POR"],
     s:{pts:[28.5,40,[27,31,24,35,29,22,33,28,30,26]],reb:[12.5,18,[12,14,10,16,11,13,15,12,10,14]],ast:[3.5,8,[3,4,2,5,3,4,2,3,4,3]],tpm:[2.5,6,[2,3,1,4,2,1,3,2,3,2]]}}
   ];
+  var DVP=null; try{DVP=JSON.parse(localStorage.getItem("dvp"))}catch(e){}
   var pl=P[0], key="pts", vals=[], line=4.5, over=true, MAX=8, avg=0;
   var $=function(id){return document.getElementById(id)};
   var bars=$('bars'), lbl=$('lbl'), els=[], lbls=[];
@@ -327,6 +366,8 @@ h1{font-size:44px;line-height:1.02}
     $('rankMil').textContent=noRef?'–':ov?ov[1]:(((pl.n.length*7+k.length*5)%30)+1)+'.';
     $('rankLbl').textContent=noRef?'ranking rywali: brak danych w źródłach':pl.opp+' pod względem '+K[k][1]+' traconych na tej pozycji';
     if(noRef) $('vsLbl').textContent='ostatni mecz ('+pl.o[last]+')';
+    var nx2=(window.__p2&&window.__p2.next)?window.__p2.next(pl.team):null, g2=(pl.pos||'')[0], rk=(DVP&&nx2&&DVP[nx2.opp]&&DVP[nx2.opp][g2])?DVP[nx2.opp][g2][k]:null;
+    if(rk){$('rankMil').textContent=rk+'.'; $('rankLbl').textContent=nx2.opp+': miejsce w '+K[k][1]+' traconych pozycji '+g2+' (1 = najwięcej)';}
     document.querySelectorAll('.tabs button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.k===k)});
     render();
   }
@@ -379,65 +420,69 @@ h1{font-size:44px;line-height:1.02}
   var UNIT={pts:'pkt',reb:'zb.',ast:'as.'};
   function nrmN(t){return String(t).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()}
   function ncdf(z){var t=1/(1+0.2316419*Math.abs(z)),d=0.3989423*Math.exp(-z*z/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return z>0?1-p:p}
+  function mn(v){return v.reduce(function(x,y){return x+y},0)/v.length}
   function renderSug(){
     var box=$('sugList'); if(!box) return;
-    var a=sugTeams[0], b=sugTeams[1], res=[];
-    var c=(window.__p2&&window.__p2.ctx)?window.__p2.ctx(a,b):null;
-    P.forEach(function(p){
-      if(p.team!==a&&p.team!==b) return;
-      var mine=p.team===a, me=c?(mine?c.A:c.B):null, op=c?(mine?c.B:c.A):null;
-      var home=(c&&c.homeA!==null)?(mine?c.homeA:!c.homeA):null;
-      if(me&&me.out.indexOf(nrmN(p.n))>-1) return;
-      var mo=me?Math.min(2,me.out.length):0, oo=op?Math.min(2,op.out.length):0, env=0, notes=[];
-      if(c){
-        env=0.7*(op.avgO/c.lg-1)+0.3*((me.avgP+op.avgO+op.avgP+me.avgO)/(4*c.lg)-1);
-        notes.push(op.avgO>c.lg*1.02?'słaba obrona rywala':op.avgO<c.lg*0.98?'mocna obrona rywala':'przeciętna obrona rywala');
-        if(me.avgP>c.lg*1.02) notes.push('dobra ofensywa');
-        if(op.avgP>c.lg*1.02) notes.push('mocny atak rywala');
-      }
-      var ha=home===true?0.02:home===false?-0.02:0;
-      if(home!==null) notes.push(home?'u siebie':'wyjazd');
-      if(mo) notes.push('brak ważnych graczy: '+mo);
-      if(oo) notes.push('braki u rywala: '+oo);
-      var best=null;
-      ['pts','reb','ast'].forEach(function(k){
-        var d=p.s[k]; if(!d||d[2].length<5) return;
-        var v=d[2], n=v.length, m=v.reduce(function(x,y){return x+y},0)/n,
-            sd=Math.sqrt(v.reduce(function(x,y){return x+(y-m)*(y-m)},0)/n)||1;
-        var f=k==='pts'?1+env+ha+0.05*mo+0.02*oo:k==='ast'?1+0.5*env+0.5*ha+0.05*mo:1+0.3*env+0.5*ha+0.03*mo;
-        var m2=m*f, s2=Math.max(sd*f,0.8), cand=null;
-        for(var t0=Math.max(1,Math.round(m2)-2); t0<=Math.round(m2)+2; t0++){
-          var L=t0-0.5; if(Math.abs(L-m2)>1.25) continue;
-          var pr=1-ncdf((L-m2)/s2);
-          var nm=v.filter(function(x){return x===t0-1&&x>=1}).length, sc=pr*100+3*nm;
-          if(pr>=0.50&&pr<=0.74&&(!cand||sc>cand.sc)) cand={t:t0,pr:pr,nm:nm,sc:sc};
-        }
-        var star=(k==='pts'&&m>=22)||(k==='reb'&&m>=9)||(k==='ast'&&m>=7), starPick=false;
-        if(!cand&&star){var t1=Math.max(1,Math.round(m2+0.5)); cand={t:t1,pr:1-ncdf((t1-0.5-m2)/s2),nm:v.filter(function(x){return x===t1-1&&x>=1}).length}; cand.sc=cand.pr*100+3*cand.nm; starPick=true;}
-        if(cand){var r={p:p,k:k,t:cand.t,star:star,fb:starPick,nm:cand.nm,n:n,sc:cand.sc,pm:(p.s.pts?p.s.pts[2].reduce(function(x,y){return x+y},0)/p.s.pts[2].length:0),pr:Math.round(cand.pr*100),m:m,m2:m2,notes:notes.concat(starPick?['gwiazda drużyny, szansa poza progiem']:[])}; if(!best||r.sc>best.sc) best=r;}
-      });
-      if(best) res.push(best);
-    });
-    var out=[], used={};
-    [a,b].forEach(function(tm){
-      var st=res.filter(function(r){return r.p.team===tm&&r.star}).sort(function(x,y){return y.pm-x.pm})[0];
-      if(st){st.top=true; out.push(st); used[st.p.n]=1}
-    });
-    [a,b].forEach(function(tm){
-      res.filter(function(r){return r.p.team===tm&&!used[r.p.n]&&!r.fb}).sort(function(x,y){return y.sc-x.sc}).slice(0,3-out.filter(function(q){return q.p.team===tm}).length).forEach(function(r){out.push(r)});
-    });
+    var a=sugTeams[0], b=sugTeams[1], c=(window.__p2&&window.__p2.ctx)?window.__p2.ctx(a,b):null, shown=0;
     box.innerHTML='';
-    if(!out.length){box.innerHTML='<span class="mute">Brak typów z wartością (szansa 50–74%). Wczytaj nba_data.json.</span>';return}
-    out.forEach(function(r){
-      var bt=document.createElement('button'); bt.type='button'; bt.className='sugb'+(r.top?' star':'');
-      bt.innerHTML='<span><b></b><small></small></span><span class="sugp"></span>';
-      bt.querySelector('b').textContent=(r.top?'★ ':'')+r.p.n+' ('+r.p.team+')';
-      bt.querySelector('small').textContent=K[r.k][0]+': +'+r.t+' '+UNIT[r.k]+' · śr. '+r.m.toFixed(1)+(Math.abs(r.m2-r.m)>=0.05?' → '+r.m2.toFixed(1):'')+(r.nm?' · o 1 brakło w '+r.nm+'/'+r.n+' meczach':'')+(r.notes.length?' · '+r.notes.join(', '):'');
-      bt.querySelector('.sugp').textContent=r.pr+'%';
-      bt.onclick=function(){setPlayer(r.p);setStat(r.k)};
-      box.appendChild(bt);
+    [a,b].forEach(function(tm){
+      var best=null, mine=tm===a, me=c?(mine?c.A:c.B):null;
+      P.forEach(function(p){
+        if(p.team!==tm||!p.s.pts||p.s.pts[2].length<5) return;
+        if(me&&me.out.indexOf(nrmN(p.n))>-1) return;
+        var m=mn(p.s.pts[2]); if(!best||m>best.m) best={p:p,m:m};
+      });
+      if(!best) return;
+      shown++; box.appendChild(starBlock(best.p,mine,c,a,b));
     });
+    if(!shown) box.innerHTML='<span class="mute">Brak graczy tych drużyn w danych. Wczytaj nba_data.json.</span>';
   }
+  function starBlock(p,mine,c,a,b){
+    var me=c?(mine?c.A:c.B):null, op=c?(mine?c.B:c.A):null;
+    var home=(c&&c.homeA!==null)?(mine?c.homeA:!c.homeA):null;
+    var mo=me?Math.min(2,me.out.length):0, oo=op?Math.min(2,op.out.length):0, env=0, notes=[];
+    if(c){
+      env=0.7*(op.avgO/c.lg-1)+0.3*((me.avgP+op.avgO+op.avgP+me.avgO)/(4*c.lg)-1);
+      notes.push(op.avgO>c.lg*1.02?'słaba obrona rywala':op.avgO<c.lg*0.98?'mocna obrona rywala':'przeciętna obrona rywala');
+    }
+    var ha=home===true?0.02:home===false?-0.02:0;
+    if(home!==null) notes.push(home?'u siebie':'wyjazd');
+    if(mo) notes.push('braki w drużynie: '+mo);
+    if(oo) notes.push('braki u rywala: '+oo);
+    var oppAb=mine?b:a, dv=(DVP&&DVP[oppAb])?DVP[oppAb][(p.pos||'F')[0]]:null;
+    var wrap=document.createElement('div'); wrap.className='starb';
+    var head=document.createElement('div'); head.className='starh';
+    var av=document.createElement('div'); av.className='av';
+    photo(av,p.id?['img/players/'+p.id+'.png','https://cdn.nba.com/headshots/nba/latest/1040x760/'+p.id+'.png']:null,p.ini||'');
+    var tx=document.createElement('div'); tx.innerHTML='<b></b><small></small>';
+    tx.querySelector('b').textContent='★ '+p.n+' ('+p.team+')';
+    tx.querySelector('small').textContent=notes.join(' · ');
+    head.appendChild(av); head.appendChild(tx); wrap.appendChild(head);
+    ['pts','reb','ast'].forEach(function(k){
+      var d=p.s[k]; if(!d||d[2].length<5) return;
+      var v=d[2], m=mn(v), sd=Math.sqrt(mn(v.map(function(x){return (x-m)*(x-m)})))||1;
+      var f=k==='pts'?1+env+ha+0.05*mo+0.02*oo:k==='ast'?1+0.5*env+0.5*ha+0.05*mo:1+0.3*env+0.5*ha+0.03*mo;
+      if(dv&&dv[k]) f*=1+(15.5-dv[k])*0.004;
+      var m2=m*f, s2=Math.max(sd*f,0.8), t0=Math.max(1,Math.round(m2));
+      function pr(t){return Math.round((1-ncdf((t-0.5-m2)/s2))*100)}
+      var bt=document.createElement('button'); bt.type='button'; bt.className='sugb';
+      bt.innerHTML='<span><b></b><small></small></span><span class="sugp"></span>';
+      bt.querySelector('b').textContent=K[k][0]+': +'+t0+' '+UNIT[k];
+      bt.querySelector('small').textContent='śr. '+m.toFixed(1)+(Math.abs(m2-m)>=0.05?' → '+m2.toFixed(1):'')+(t0>1?' · bezpieczniej +'+(t0-1)+' ('+pr(t0-1)+'%)':'');
+      bt.querySelector('.sugp').textContent=pr(t0)+'%';
+      bt.onclick=function(){showTab('a'); window.__keep=true; setPlayer(p); setStat(k); window.__keep=false;
+        var h=$('pname'); if(h&&h.scrollIntoView) h.scrollIntoView({behavior:'smooth',block:'center'})};
+      wrap.appendChild(bt);
+    });
+    return wrap;
+  }
+  function showTab(t){
+    document.querySelectorAll('.tabbar button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===t)});
+    $('tabA').hidden=t!=='a'; $('tabB').hidden=t!=='b';
+    try{localStorage.setItem('tab',t)}catch(e){}
+  }
+  document.querySelectorAll('.tabbar button').forEach(function(b){b.onclick=function(){showTab(b.dataset.tab)}});
+  try{showTab(localStorage.getItem('tab')==='b'?'b':'a')}catch(e){}
   window.__sug=function(a,b){sugTeams=[a,b];renderSug()};
   window.__openPlayer=function(n,id){
     var t=nrmN(n), f=P.filter(function(p){return id&&String(p.id)===String(id)})[0]||P.filter(function(p){return nrmN(p.n)===t})[0];
@@ -480,6 +525,7 @@ h1{font-size:44px;line-height:1.02}
     r.onload=function(){
       try{
         var d=JSON.parse(r.result);
+        DVP=d.dvp||null; try{localStorage.setItem("dvp",JSON.stringify(DVP))}catch(e){}
         if(d.teams){ loadTeams(d.teams); try{localStorage.setItem('teams',JSON.stringify(d.teams))}catch(e){} }
         if(d.detail&&window.__p2){ window.__p2.setData(d.detail.teams,d.detail.h2h); try{localStorage.setItem('tdetail',JSON.stringify(d.detail))}catch(e){} }
         if(d.players){ loadData(d.players); try{localStorage.setItem('players',JSON.stringify(d.players))}catch(e){} }
@@ -504,6 +550,7 @@ h1{font-size:44px;line-height:1.02}
     fetch('nba_data.json',{cache:'no-cache'}).then(function(r){if(!r.ok) throw new Error('http'); return r.json()}).then(function(d){
       if(d.teams) loadTeams(d.teams);
       if(d.detail&&window.__p2) window.__p2.setData(d.detail.teams,d.detail.h2h);
+      DVP=d.dvp||null; try{localStorage.setItem("dvp",JSON.stringify(DVP))}catch(e){}
       if(d.players) loadData(d.players);
       $('loadMsg').textContent='Dane wczytane automatycznie: graczy '+(d.players||[]).length+', drużyn '+(d.teams||[]).length+'.';
     }).catch(function(){});
@@ -657,7 +704,7 @@ h1{font-size:44px;line-height:1.02}
     var box=function(k,t){var g=(t.rec[0]+t.rec[1])||1,w=Math.round(t.rec[0]/g*100),c=w===50?'#ffc233':w>50?'var(--hit)':'var(--miss)';
       return '<div>'+badge(k)+'<div class="tn">'+t.n+'</div>'+
         '<div class="ring" style="margin:12px auto 10px;box-shadow:0 0 20px -4px '+c+';--rb:conic-gradient('+c+' '+w+'%, var(--line) 0)"><span>'+w+'%<small>winrate</small></span></div>'+
-        '<span class="pill" style="border-color:'+c+';color:'+c+';box-shadow:0 0 16px -2px '+c+'">'+t.rec[0]+'-'+t.rec[1]+'</span></div>'};
+        '<span class="pill" style="border-color:'+c+';color:'+c+';box-shadow:0 0 16px -2px '+c+'">'+t.rec[0]+'-'+t.rec[1]+'</span>'+restHtml(k)+'</div>'};
     $('#head').innerHTML=box(a,A)+'<div class="vs">VS</div>'+box(b,B);
     drawTotal(); fillPicks();
     drawTeam();
@@ -671,9 +718,57 @@ h1{font-size:44px;line-height:1.02}
     }
     lineup(a,$('#lineA'),'#la'); lineup(b,$('#lineB'),'#lb');
     if(window.__sug) window.__sug(a,b);
+    renderCmp(a,b);
   }
   var lm=$('#tdMsg');
   function setData(t,h){T=t;H=h||{};fill(ta.value,tb.value);update()}
+  function restOf(k){
+    var t=T[k], n=t&&t.next; if(!n||!n.ts||!t.last) return null;
+    var nd=new Date(Date.parse(n.ts)-5*36e5), ld=Date.parse(t.last+'T00:00:00Z');
+    var d=Math.round((Date.UTC(nd.getUTCFullYear(),nd.getUTCMonth(),nd.getUTCDate())-ld)/864e5)-1;
+    return d>=0?d:null;
+  }
+  function restHtml(k){var r=restOf(k); return r===null?'':(r===0?'<span class="b2b">Back-to-back</span>':'<span class="restn">Odpoczynek: '+r+' '+(r===1?'dzień':'dni')+'</span>')}
+  function teamStats(k){
+    var t=T[k], p=t.p, o=t.o, w=0; p.forEach(function(x,i){if(x>o[i]) w++});
+    var g=(t.rec[0]+t.rec[1])||1;
+    return {k:k,n:t.n,rec:t.rec,pct:t.rec[0]/g,off:mean(p),def:mean(o),form:w,fl:p.length,ls:p[p.length-1],lo:o[o.length-1],last:t.last||null,
+      out:(t.pl||[]).filter(function(q){return q[5]===0&&q[2]>=24}).map(function(q){return q[0]})};
+  }
+  function renderCmp(a,b){
+    var box=$('#cmpBox'); if(!box||!T[a]||!T[b]) return;
+    var all=Object.keys(T).map(teamStats), N=all.length, q=Math.ceil(N/4);
+    function ranks(fn){var m={}; all.slice().sort(fn).forEach(function(x,i){m[x.k]=i+1}); return m}
+    var rAll=ranks(function(x,y){return (y.pct-x.pct)||((y.off-y.def)-(x.off-x.def))}), rOff=ranks(function(x,y){return y.off-x.off}), rDef=ranks(function(x,y){return x.def-y.def});
+    function pc(s){
+      var P=[],C=[];
+      if(rOff[s.k]<=q) P.push('Mocny atak ('+s.off.toFixed(1)+' pkt, '+rOff[s.k]+'. miejsce)'); else if(rOff[s.k]>N-q) C.push('Słaby atak ('+s.off.toFixed(1)+' pkt, '+rOff[s.k]+'. miejsce)');
+      if(rDef[s.k]<=q) P.push('Szczelna obrona (traci '+s.def.toFixed(1)+', '+rDef[s.k]+'. miejsce)'); else if(rDef[s.k]>N-q) C.push('Dziurawa obrona (traci '+s.def.toFixed(1)+', '+rDef[s.k]+'. miejsce)');
+      if(s.form>=Math.round(s.fl*0.7)) P.push('Dobra forma: '+s.form+'-'+(s.fl-s.form)+' w ostatnich '+s.fl); else if(s.form<=Math.round(s.fl*0.3)) C.push('Słaba forma: '+s.form+'-'+(s.fl-s.form)+' w ostatnich '+s.fl);
+      var rs=restOf(s.k); if(rs===0) C.push('Back-to-back'); else if(rs!==null&&rs>=3) P.push('Wypoczęci ('+rs+' dni przerwy)');
+      if(s.out.length) C.push('Braki w rotacji: '+s.out.slice(0,3).join(', '));
+      var nx=nextOf(s.k); if(nx&&nx.home===true) P.push('Gra u siebie'); else if(nx&&nx.home===false) C.push('Gra na wyjeździe');
+      return {P:P,C:C};
+    }
+    function ul(arr,cls){return arr.length?'<ul class="'+cls+'"><li>'+arr.join('</li><li>')+'</li></ul>':'–'}
+    function lastGame(s){
+      var res=(s.ls>s.lo?'W ':'L ')+s.ls+':'+s.lo, d=null;
+      if(s.last){d=Math.round((Date.now()-Date.parse(s.last+'T12:00:00Z'))/864e5)}
+      return res+(s.last?' · '+s.last.split('-').reverse().slice(0,2).join('.')+(d!==null&&d>=0?' ('+(d===0?'dziś':d===1?'wczoraj':d+' dni temu')+')':''):'');
+    }
+    var A=teamStats(a), B=teamStats(b), pa=pc(A), pb=pc(B);
+    function row(t,fa,fb){return '<tr><td>'+t+'</td><td>'+fa(A)+'</td><td>'+fb(B)+'</td></tr>'}
+    var same=function(f){return function(s){return f(s)}};
+    box.innerHTML='<table class="cmp"><thead><tr><th></th><th>'+a+'</th><th>'+b+'</th></tr></thead><tbody>'+
+      row('Ranking ogólny',function(s){return rAll[s.k]+'. z '+N+' · '+s.rec[0]+'-'+s.rec[1]+' ('+Math.round(s.pct*100)+'%)'},function(s){return rAll[s.k]+'. z '+N+' · '+s.rec[0]+'-'+s.rec[1]+' ('+Math.round(s.pct*100)+'%)'})+
+      row('Ofensywa',function(s){return s.off.toFixed(1)+' pkt · '+rOff[s.k]+'. miejsce'},function(s){return s.off.toFixed(1)+' pkt · '+rOff[s.k]+'. miejsce'})+
+      row('Defensywa',function(s){return s.def.toFixed(1)+' straconych · '+rDef[s.k]+'. miejsce'},function(s){return s.def.toFixed(1)+' straconych · '+rDef[s.k]+'. miejsce'})+
+      row('Forma (ost. 10)',function(s){return s.form+'-'+(s.fl-s.form)},function(s){return s.form+'-'+(s.fl-s.form)})+
+      row('Ostatni mecz',lastGame,lastGame)+
+      row('Ważne kontuzje',function(s){return s.out.length?s.out.join(', '):'brak'},function(s){return s.out.length?s.out.join(', '):'brak'})+
+      '<tr><td>Zalety</td><td>'+ul(pa.P,'pro')+'</td><td>'+ul(pb.P,'pro')+'</td></tr>'+
+      '<tr><td>Wady</td><td>'+ul(pa.C,'con')+'</td><td>'+ul(pb.C,'con')+'</td></tr></tbody></table>';
+  }
   function nextOf(a){var n=T[a]&&T[a].next; if(!n) return null; if(n.label&&!n.ts) return {opp:n.opp,home:n.home,time:n.label}; var d=n.ts?new Date(n.ts):null;
     return {opp:n.opp,home:n.home,time:(d&&!isNaN(d))?d.toLocaleDateString('pl-PL',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('pl-PL',{hour:'2-digit',minute:'2-digit'}):''}}
   window.__p2={setData:setData,next:nextOf,ctx:ctx,focus:function(a,b){b=b||(nextOf(a)||{}).opp;if(a&&T[a]){ta.value=a;if(b&&T[b])tb.value=b;update()}}};
