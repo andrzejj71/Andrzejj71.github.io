@@ -204,8 +204,7 @@ h1{font-size:44px;line-height:1.02}
 <body>
 <main class="app">
 <header class="top"><h1 class="ttl">Panel NBA</h1><div class="load"><button type="button" class="ld" id="allBtn">Wczytaj wszystko (nba_data.json)</button><input type="file" id="allFile" accept=".json,application/json" class="sr" tabindex="-1"><button type="button" class="ld" id="loadBtn">Wczytaj players.json</button><input type="file" id="file" accept=".json,application/json" class="sr" tabindex="-1"><button type="button" class="ld" id="teamBtn">Wczytaj teams.json</button><input type="file" id="tfile" accept=".json,application/json" class="sr" tabindex="-1"><span class="mute" id="loadMsg">Plik nba_data.json wygenerujesz skryptem aktualizuj_wszystko.py.</span></div></header>
-<nav class="tabbar" role="tablist" aria-label="Zakładki"><button type="button" role="tab" data-tab="a" aria-selected="true">Analiza meczu</button></nav>
-<div class="dash tabpane" id="tabA">
+<div class="dash">
 <div class="col">
 <section class="card" aria-label="Karta gracza">
   <div class="search">
@@ -258,18 +257,11 @@ h1{font-size:44px;line-height:1.02}
     <small class="mute" id="recTxt">8 zwycięstw, 4 porażki</small>
   </div>
 </section>
+<section class="card" id="sugCard"><h2 class="sugh">Gwiazdy meczu</h2><small class="mute">Najlepszy strzelec każdej drużyny (bez graczy, którzy nie zagrali w ostatnim meczu). Dla punktów, zbiórek i asyst: linia „+X” i szansa po korektach (dom/wyjazd, obrona i atak drużyn, braki).</small><div class="sugl" id="sugList"></div></section>
 
-<section class="card" id="sugCard">
-  <h2 class="sugh">Gwiazdy meczu</h2>
-  <small class="mute">Najlepszy strzelec każdej drużyny (bez graczy, którzy nie zagrali w ostatnim meczu). Dla punktów, zbiórek i asyst: linia „+X” i szansa po korektach (dom/wyjazd, obrona i atak drużyn, braki).</small>
-  <div class="sugl" id="sugList"></div>
-</section>
 
-<section class="card" id="cmpCard">
-  <h2 class="sugh">Porównanie drużyn</h2>
-  <small class="mute">Ranking, atak, obrona, forma, ostatni mecz i ważni gracze, którzy nie zagrali w ostatnim meczu (to nie jest oficjalny raport kontuzji). Dane z ostatnich 10 meczów.</small>
-  <div style="overflow-x:auto" id="cmpBox"></div>
-</section>
+
+
 
 </div>
 <div id="p2">
@@ -288,7 +280,8 @@ h1{font-size:44px;line-height:1.02}
   <div class="ctrl" id="sw" role="group" aria-label="Wybierz drużynę"></div>
   <div id="c2"></div>
 
-  </section></div>
+  </section>
+<section class="card" id="cmpCard"><h2 class="sugh">Porównanie drużyn</h2><small class="mute">Ranking, atak, obrona, forma, ostatni mecz i ważni gracze, którzy nie zagrali w ostatnim meczu (to nie jest oficjalny raport kontuzji). Dane z ostatnich 10 meczów.</small><div style="overflow-x:auto" id="cmpBox"></div></section></div>
 <div class="col"><section class="card"><h2>Ostatnie H2H</h2>
   <div class="box h2h" id="h2h"></div>
 
@@ -480,13 +473,7 @@ h1{font-size:44px;line-height:1.02}
     });
     return wrap;
   }
-  function showTab(t){
-    document.querySelectorAll('.tabbar button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.tab===t)});
-    var tabA=$('tabA'); if(tabA) tabA.hidden=t!=='a';
-    try{localStorage.setItem('tab',t)}catch(e){}
-  }
-  document.querySelectorAll('.tabbar button').forEach(function(b){b.onclick=function(){showTab(b.dataset.tab)}});
-  try{showTab('a')}catch(e){}
+  function showTab(){}
   window.__sug=function(a,b){sugTeams=[a,b];renderSug()};
   window.__openPlayer=function(n,id){
     var t=nrmN(n), f=P.filter(function(p){return id&&String(p.id)===String(id)})[0]||P.filter(function(p){return nrmN(p.n)===t})[0];
